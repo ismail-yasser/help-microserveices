@@ -1,0 +1,11 @@
+The following unused or default files were removed from the frontend:
+- src/App.test.js
+- src/logo.svg
+- src/reportWebVitals.js
+- src/setupTests.js
+- public/logo192.png
+- public/logo512.png
+- public/manifest.json
+- public/robots.txt
+
+If you need any of these files restored, please let the developer know.

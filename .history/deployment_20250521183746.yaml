@@ -1,0 +1,144 @@
+# Kubernetes Deployment and Service definitions
+
+# --- User Service ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service-deployment
+  labels:
+    app: user-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+      - name: user-service
+        image: ismaill370/user-service:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          value: "development"
+        # IMPORTANT: MONGO_URI and JWT_SECRET should be stored in Kubernetes Secrets in a production environment.
+        - name: MONGO_URI
+          value: "mongodb+srv://ismailyasser106:z1x2c312@aiu.bwzvhcr.mongodb.net/user-service?retryWrites=true&w=majority"
+        - name: JWT_SECRET
+          value: "78d77415b756c310554b3ac00cf50f52aaef5676318ebe67b72d2a39d4f32274"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+  labels:
+    app: user-service
+spec:
+  type: ClusterIP # Only reachable within the Kubernetes cluster
+  selector:
+    app: user-service
+  ports:
+  - protocol: TCP
+    port: 3000 # Port the service will be available on within the cluster
+    targetPort: 3000 # Port the container is listening on
+
+# --- Help Service ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: help-service-deployment
+  labels:
+    app: help-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: help-service
+  template:
+    metadata:
+      labels:
+        app: help-service
+    spec:
+      containers:
+      - name: help-service
+        image: ismaill370/help-service:latest
+        ports:
+        - containerPort: 3002
+        env:
+        - name: NODE_ENV
+          value: "development"
+        # IMPORTANT: MONGO_URI and JWT_SECRET should be stored in Kubernetes Secrets in a production environment.
+        - name: MONGO_URI
+          value: "mongodb+srv://ismailyasser106:z1x2c312@aiu.bwzvhcr.mongodb.net/help-service?retryWrites=true&w=majority"
+        - name: JWT_SECRET
+          value: "78d77415b756c310554b3ac00cf50f52aaef5676318ebe67b72d2a39d4f32274"
+        # CRITICAL: The help-service code needs to be updated to use Kubernetes service names for inter-service communication.
+        # e.g., USER_SERVICE_URL: http://user-service:3000 (this env var would be used in help-service code)
+        # For now, this deployment uses the existing image which might have hardcoded localhost URLs.
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: help-service
+  labels:
+    app: help-service
+spec:
+  type: ClusterIP # Only reachable within the Kubernetes cluster
+  selector:
+    app: help-service
+  ports:
+  - protocol: TCP
+    port: 3002
+    targetPort: 3002
+
+# --- Frontend Service ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: ismaill370/frontend:latest # This image serves the build on port 3000
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV # React build might use this
+          value: "production"
+        # IMPORTANT: Frontend needs to be configured to talk to backend services.
+        # This usually involves setting environment variables like REACT_APP_API_BASE_URL
+        # that point to an Ingress controller or an API Gateway,
+        # or directly to backend services if they are exposed externally.
+        # Example (if using an Ingress at /api):
+        # - name: REACT_APP_API_BASE_URL
+        #   value: "/api"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  labels:
+    app: frontend
+spec:
+  type: NodePort # Exposes the service on each Node's IP at a static port (the NodePort)
+  selector:
+    app: frontend
+  ports:
+  - protocol: TCP
+    port: 80 # Port the service will be available on (e.g., NodeIP:NodePort)
+    targetPort: 3000 # Port the container (frontend) is listening on

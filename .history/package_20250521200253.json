@@ -1,0 +1,21 @@
+{
+  "name": "microservices-health-checks",
+  "version": "1.0.0",
+  "description": "Health check testing for microservices",
+  "main": "test-health-endpoints.js",
+  "scripts": {
+    "test": "node test-health-endpoints.js",
+    "test:local": "node test-health-endpoints.js --local",
+    "test:kube": "set KUBERNETES_ENV=true && node test-health-endpoints.js"
+  },
+  "keywords": [
+    "microservices",
+    "health",
+    "kubernetes"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.2"
+  }
+}

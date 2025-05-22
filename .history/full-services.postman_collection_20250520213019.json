@@ -1,0 +1,607 @@
+{
+  "info": {
+    "name": "Full Services API - Updated",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "User Service",
+      "item": [
+        {
+          "name": "Signup",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test.user@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"student\",\n  \"department\": \"Computer Science\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/users/signup",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "users", "signup"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test.user@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/users/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "users", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get User Profile by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/users/profile/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "users", "profile", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "<user_id>"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Own Profile (Protected)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <JWT_TOKEN>"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/api/users/profile",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "users", "profile"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Study Group Service",
+      "item": [
+        {
+          "name": "Create Study Group",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <JWT_TOKEN>"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Advanced Algorithms Study Group\",\n  \"description\": \"A group to discuss advanced algorithms and data structures.\",\n  \"courseId\": \"CS500\",\n  \"privacy\": \"public\",\n  \"capacity\": 20,\n  \"tags\": [\"algorithms\", \"data structures\", \"computer science\"]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3005/api/groups",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3005",
+              "path": ["api", "groups"]
+            }
+          }
+        },
+        {
+          "name": "Fetch Study Groups",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <JWT_TOKEN>"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3005/api/groups?page=1&limit=10&name=Algorithms",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3005",
+              "path": ["api", "groups"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" },
+                { "key": "name", "value": "Algorithms" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Join Study Group",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <JWT_TOKEN>"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"<user_id>\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3005/api/groups/:id/join",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3005",
+              "path": ["api", "groups", ":id", "join"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "<group_id>"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Resource Service",
+      "item": [
+        {
+          "name": "Upload Resource",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <JWT_TOKEN>"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Introduction to Quantum Computing\",\n  \"description\": \"A beginner-friendly guide to quantum computing concepts.\",\n  \"url\": \"http://example.com/quantum_guide.pdf\",\n  \"fileType\": \"document\",\n  \"category\": \"Physics\",\n  \"courseId\": \"PHYS301\",\n  \"difficultyLevel\": \"beginner\",\n  \"tags\": [\"quantum\", \"physics\", \"computing\"]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/resources",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "resources"]
+            }
+          }
+        },
+        {
+          "name": "Fetch Resources",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <JWT_TOKEN>"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3001/api/resources?page=1&limit=10&category=Physics",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "resources"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" },
+                { "key": "category", "value": "Physics" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Fetch Resource by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <JWT_TOKEN>"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3001/api/resources/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "resources", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "<resource_id>"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notification Service",
+      "item": [
+        {
+          "name": "Create Notification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <JWT_TOKEN>"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"<user_id>\",\n  \"message\": \"Your help request has been updated.\",\n  \"type\": \"help_request\",\n  \"sourceId\": \"<help_request_id>\",\n  \"priority\": \"normal\",\n  \"actionUrl\": \"/help-requests/<help_request_id>\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3004/api/notifications",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3004",
+              "path": ["api", "notifications"]
+            }
+          }
+        },
+        {
+          "name": "Fetch Notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <JWT_TOKEN>"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3004/api/notifications?userId=<user_id>&type=help_request",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3004",
+              "path": ["api", "notifications"],
+              "query": [
+                { "key": "userId", "value": "<user_id>" },
+                { "key": "type", "value": "help_request" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Help Service",
+      "item": [
+        {
+          "name": "Get All Help (Requests/Offers)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3002/api/help",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3002",
+              "path": ["api", "help"]
+            }
+          }
+        },
+        {
+          "name": "Search Help",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3002/api/help/search?query=python&tags=programming&courseId=CS101",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3002",
+              "path": ["api", "help", "search"],
+              "query": [
+                { "key": "query", "value": "python" },
+                { "key": "tags", "value": "programming" },
+                { "key": "courseId", "value": "CS101" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Find Help Match",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3002/api/help/match?skills=javascript,react&courseId=CS202",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3002",
+              "path": ["api", "help", "match"],
+              "query": [
+                { "key": "skills", "value": "javascript,react" },
+                { "key": "courseId", "value": "CS202" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Help By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3002/api/help/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3002",
+              "path": ["api", "help", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "<help_id>"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Help Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <JWT_TOKEN>"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"request\",\n  \"subject\": \"Need help with Python project\",\n  \"description\": \"I am stuck on a bug in my Python Flask application.\",\n  \"courseId\": \"PY201\",\n  \"urgency\": \"high\",\n  \"tags\": [\"python\", \"flask\", \"debugging\"],\n  \"requiredSkills\": [\"python\", \"flask\"]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3002/api/help/request",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3002",
+              "path": ["api", "help", "request"]
+            }
+          }
+        },
+        {
+          "name": "Create Help Offer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <JWT_TOKEN>"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"offer\",\n  \"subject\": \"Offering help with Java basics\",\n  \"description\": \"I can help anyone struggling with Java fundamentals.\",\n  \"courseId\": \"JV101\",\n  \"tags\": [\"java\", \"programming\", \"beginner\"],\n  \"requiredSkills\": [\"java\"]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3002/api/help/offer",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3002",
+              "path": ["api", "help", "offer"]
+            }
+          }
+        },
+        {
+          "name": "Update Help",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <JWT_TOKEN>"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Updated description: I found a workaround but still need some clarification.\",\n  \"status\": \"in-progress\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3002/api/help/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3002",
+              "path": ["api", "help", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "<help_id>"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Help",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer <JWT_TOKEN>"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3002/api/help/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3002",
+              "path": ["api", "help", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "<help_id>"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Add Response to Help Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <JWT_TOKEN>"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"<responder_user_id>\",\n  \"content\": \"I can help you with that. Can you share your code snippet?\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3002/api/help/:id/responses",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3002",
+              "path": ["api", "help", ":id", "responses"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "<help_id>"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Help Request Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <JWT_TOKEN>"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"resolved\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3002/api/help/:id/status",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3002",
+              "path": ["api", "help", ":id", "status"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "<help_id>"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Assign Helper to Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <JWT_TOKEN>"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"helperUserId\": \"<helper_user_id>\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3002/api/help/:id/assign",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3002",
+              "path": ["api", "help", ":id", "assign"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "<help_id>"
+                }
+              ]
+            }
+          }
+        },
+        {

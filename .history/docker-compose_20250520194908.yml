@@ -1,0 +1,99 @@
+version: '3.8'
+
+services:
+  user-service:
+    build: ./services/user-service
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - MONGO_URI=mongodb+srv://ismailyasser106:z1x2c312@aiu.bwzvhcr.mongodb.net/user-service?retryWrites=true&w=majority
+      - JWT_SECRET=78d77415b756c310554b3ac00cf50f52aaef5676318ebe67b72d2a39d4f32274
+
+  study-group-service:
+    build: ./services/study-group-service
+    ports:
+      - "3005:3005"
+    environment:
+      - MONGO_URI=mongodb+srv://ismailyasser106:z1x2c312@aiu.bwzvhcr.mongodb.net/study-group-service?retryWrites=true&w=majority
+      - JWT_SECRET=78d77415b756c310554b3ac00cf50f52aaef5676318ebe67b72d2a39d4f32274
+
+  resource-service:
+    build: ./services/resource-service
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGO_URI=mongodb+srv://ismailyasser106:z1x2c312@aiu.bwzvhcr.mongodb.net/resource-service?retryWrites=true&w=majority
+      - JWT_SECRET=78d77415b756c310554b3ac00cf50f52aaef5676318ebe67b72d2a39d4f32274
+
+  notification-service:
+    build: ./services/notification-service
+    ports:
+      - "3004:3004"
+    environment:
+      - MONGO_URI=mongodb+srv://ismailyasser106:z1x2c312@aiu.bwzvhcr.mongodb.net/notification-service?retryWrites=true&w=majority
+      - JWT_SECRET=78d77415b756c310554b3ac00cf50f52aaef5676318ebe67b72d2a39d4f32274
+
+  help-service:
+    build: ./services/help-service
+    ports:
+      - "3002:3002"
+    environment:
+      - MONGO_URI=mongodb+srv://ismailyasser106:z1x2c312@aiu.bwzvhcr.mongodb.net/help-service?retryWrites=true&w=majority
+      - JWT_SECRET=78d77415b756c310554b3ac00cf50f52aaef5676318ebe67b72d2a39d4f32274
+
+  gamification-service:
+    build: ./services/gamification-service
+    ports:
+      - "3003:3003"
+    environment:
+      - MONGO_URI=mongodb+srv://ismailyasser106:z1x2c312@aiu.bwzvhcr.mongodb.net/gamification-service?retryWrites=true&w=majority
+      - JWT_SECRET=78d77415b756c310554b3ac00cf50f52aaef5676318ebe67b72d2a39d4f32274
+
+  canvas-integration-service:
+    build: ./services/canvas-integration-service
+    ports:
+      - "3006:3006"
+    environment:
+      - MONGO_URI=mongodb+srv://ismailyasser106:z1x2c312@aiu.bwzvhcr.mongodb.net/canvas-integration-service?retryWrites=true&w=majority
+      - JWT_SECRET=78d77415b756c310554b3ac00cf50f52aaef5676318ebe67b72d2a39d4f32274
+      - CANVAS_API_URL=https://aiu.instructure.com/api/v1
+      - CANVAS_API_TOKEN=your_canvas_api_token
+      - USER_SERVICE_URL=http://user-service:3000
+
+  partnership-service:
+    build: ./services/partnership-service
+    ports:
+      - "3007:3007"
+    environment:
+      - MONGO_URI=mongodb+srv://ismailyasser106:z1x2c312@aiu.bwzvhcr.mongodb.net/partnership-service?retryWrites=true&w=majority
+      - JWT_SECRET=78d77415b756c310554b3ac00cf50f52aaef5676318ebe67b72d2a39d4f32274
+      - USER_SERVICE_URL=http://user-service:3000
+
+  analytics-service:
+    build: ./services/analytics-service
+    ports:
+      - "3008:3008"
+    environment:
+      - MONGO_URI=mongodb+srv://ismailyasser106:z1x2c312@aiu.bwzvhcr.mongodb.net/analytics-service?retryWrites=true&w=majority
+      - JWT_SECRET=78d77415b756c310554b3ac00cf50f52aaef5676318ebe67b72d2a39d4f32274
+      - USER_SERVICE_URL=http://user-service:3000
+      - RESOURCE_SERVICE_URL=http://resource-service:3001
+      - HELP_SERVICE_URL=http://help-service:3003
+      - STUDY_GROUP_SERVICE_URL=http://study-group-service:3005
+      - PARTNERSHIP_SERVICE_URL=http://partnership-service:3007
+      - CANVAS_SERVICE_URL=http://canvas-integration-service:3006
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - user-service
+      - study-group-service
+      - resource-service
+      - notification-service
+      - help-service
+      - gamification-service
+      - canvas-integration-service
+      - partnership-service

@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  user-service:
+    build: ./services/user-service
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+
+  study-group-service:
+    build: ./services/study-group-service
+    ports:
+      - "3005:3005"
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - JWT_SECRET=${JWT_SECRET}
+
+  resource-service:
+    build: ./services/resource-service
+    ports:
+      - "3002:3002"
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - JWT_SECRET=${JWT_SECRET}
+
+  notification-service:
+    build: ./services/notification-service
+    ports:
+      - "3004:3004"
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - JWT_SECRET=${JWT_SECRET}
+
+  help-service:
+    build: ./services/help-service
+    ports:
+      - "3003:3003"
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - JWT_SECRET=${JWT_SECRET}
+
+  gamification-service:
+    build: ./services/gamification-service
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - JWT_SECRET=${JWT_SECRET}

@@ -48,13 +48,10 @@ jobs:
       run: |
         kubectl get nodes
 
-    - name: Apply Secrets
+    - name: Apply Secrets and ConfigMaps
       run: |
         kubectl apply -f k8s/help-service-secret.yaml
         kubectl apply -f k8s/user-service-secret.yaml
-
-    - name: Apply ConfigMaps
-      run: |
         kubectl apply -f k8s/help-service-configmap.yaml
         kubectl apply -f k8s/user-service-configmap.yaml
 

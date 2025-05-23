@@ -72,6 +72,3 @@ jobs:
       run: |
         export KUBECONFIG=kubeconfig
         kubectl apply -f k8s/
-    - name: List contexts in Kubeconfig
-      run: |
-        kubectl config get-contexts -o name

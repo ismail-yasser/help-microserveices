@@ -13,6 +13,13 @@ spec:
       labels:
         app: user-service
     spec:
+      # DNS configuration to help with MongoDB Atlas resolution
+      dnsConfig:
+        options:
+        - name: ndots
+          value: "2"
+        - name: edns0
+      dnsPolicy: ClusterFirst
       containers:
         - name: user-service
           image: "ismaill370/user-service:latest"
@@ -36,14 +43,19 @@ spec:
             httpGet:
               path: /health
               port: 3000
-            initialDelaySeconds: 3
-            periodSeconds: 5
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
           readinessProbe:
             httpGet:
               path: /ready
               port: 3000
-            initialDelaySeconds: 3
-            periodSeconds: 5
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 5
+            successThreshold: 1
           resources:
             requests:
               cpu: "100m"

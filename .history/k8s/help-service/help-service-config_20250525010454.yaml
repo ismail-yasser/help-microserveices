@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: help-service-config
+data:
+  # Basic service configuration
+  PORT: '3002'
+  NODE_ENV: 'production'
+
+  # API configuration
+  API_PREFIX: '/api/help'
+
+  # CORS settings
+  CORS_ORIGIN: '*'
+
+  # Logging configuration
+  LOG_LEVEL: 'info'
+
+  # Service dependencies
+  USER_SERVICE_URL: 'http://user-service:3000'
+
+  # Health check configuration
+  HEALTH_CHECK_INTERVAL: '30000'
+  READINESS_CHECK_DELAY: '3000'
+
+  # Rate limiting
+  RATE_LIMIT_WINDOW_MS: '60000'
+  RATE_LIMIT_MAX: '100'
+
+  # Timeout settings
+  REQUEST_TIMEOUT_MS: '5000'

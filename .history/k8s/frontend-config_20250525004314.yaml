@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: default
+data:
+  NODE_ENV: "production"
+  # CORRECTED: Use relative URL paths that will be proxied by Nginx
+  REACT_APP_USER_SERVICE_URL: "/api/users" 
+  REACT_APP_HELP_SERVICE_URL: "/api/help" # Relative path that matches Nginx location block

@@ -1,13 +1,15 @@
 import axios from 'axios';
 
-// Use Kubernetes service names for internal communication
-const API_URL_USER = process.env.NODE_ENV === 'production' 
-  ? 'http://frontend.local/api/users'
-  : 'http://localhost:3000/api/users';
-  
-const API_URL_HELP = process.env.NODE_ENV === 'production'
-  ? 'http://frontend.local/api/help'
-  : 'http://localhost:3002/api/help';
+// Use environment variables provided by Kubernetes ConfigMap for internal communication
+// These environment variables will be set by the 'frontend-config' ConfigMap
+const API_URL_USER = process.env.REACT_APP_USER_SERVICE_URL; 
+const API_URL_HELP = process.env.REACT_APP_HELP_SERVICE_URL;
+
+// Fallback for local development if these are not set (e.g., when running 'npm start' locally)
+// You might still want a conditional for local, but it won't affect the K8s deployment
+// Example:
+// const API_URL_USER = process.env.REACT_APP_USER_SERVICE_URL || 'http://localhost:3000/api/users';
+// const API_URL_HELP = process.env.REACT_APP_HELP_SERVICE_URL || 'http://localhost:3002/api/help';
 
 // Function to get the auth token from localStorage
 const getAuthToken = () => {

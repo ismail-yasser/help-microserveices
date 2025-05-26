@@ -1,0 +1,85 @@
+# Production values for user-service.
+# This file contains production-ready configuration.
+
+# Increase replica count for production
+replicaCount: 3
+
+# Use specific image tag in production
+image:
+  repository: ismaill370/user-service
+  pullPolicy: IfNotPresent
+  tag: "1.0.0"
+
+# Enable Pod Disruption Budget for production
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 2
+
+# Enhanced resource limits for production
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+# Production autoscaling configuration
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 60
+  targetMemoryUtilizationPercentage: 70
+
+# Production-ready probe settings
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /ready
+    port: http
+  initialDelaySeconds: 45
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 3
+  successThreshold: 1
+
+# Production environment variables
+configMap:
+  PORT: '3000'
+  NODE_ENV: 'production'
+  API_PREFIX: '/api/users'
+  CORS_ORIGIN: 'https://yourdomain.com'
+  LOG_LEVEL: 'warn'
+  HEALTH_CHECK_INTERVAL: '60000'
+  READINESS_CHECK_DELAY: '5000'
+  RATE_LIMIT_WINDOW_MS: '60000'
+  RATE_LIMIT_MAX: '1000'
+  REQUEST_TIMEOUT_MS: '10000'
+  MONGODB_CONNECT_TIMEOUT_MS: '30000'
+  MONGODB_SERVER_SELECTION_TIMEOUT_MS: '15000'
+  MONGODB_SOCKET_TIMEOUT_MS: '60000'
+  MONGODB_MAX_POOL_SIZE: '20'
+  MONGODB_MIN_POOL_SIZE: '5'
+
+# Node affinity for production
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - user-service
+        topologyKey: kubernetes.io/hostname

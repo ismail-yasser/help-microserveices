@@ -1,3 +1,0 @@
-Deleting the following duplicate service YAMLs for clean organization:
-- user-service.yaml
-- help-service.yaml

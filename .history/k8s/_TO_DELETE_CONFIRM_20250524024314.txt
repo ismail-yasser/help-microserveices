@@ -1,1 +1,0 @@
-Confirming deletion of user-service.yaml and help-service.yaml as extra service YAMLs. Only user-service-service.yaml and help-service-service.yaml will remain.

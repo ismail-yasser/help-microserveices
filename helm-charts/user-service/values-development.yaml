@@ -1,0 +1,74 @@
+# Development values for user-service.
+# This file contains development-friendly configuration.
+
+# Lower replica count for development
+replicaCount: 1
+
+# Use latest tag and always pull for development
+image:
+  repository: ismaill370/user-service
+  pullPolicy: Always
+  tag: "latest"
+
+# Lower resource requirements for development
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+# Disable autoscaling in development
+autoscaling:
+  enabled: false
+
+# Faster probe settings for development
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 5
+
+readinessProbe:
+  httpGet:
+    path: /ready
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 10
+  successThreshold: 1
+
+# Development environment variables
+configMap:
+  PORT: '3000'
+  NODE_ENV: 'development'
+  API_PREFIX: '/api/users'
+  CORS_ORIGIN: '*'
+  LOG_LEVEL: 'debug'
+  HEALTH_CHECK_INTERVAL: '10000'
+  READINESS_CHECK_DELAY: '1000'
+  RATE_LIMIT_WINDOW_MS: '60000'
+  RATE_LIMIT_MAX: '1000'
+  REQUEST_TIMEOUT_MS: '30000'
+  MONGODB_CONNECT_TIMEOUT_MS: '60000'
+  MONGODB_SERVER_SELECTION_TIMEOUT_MS: '30000'
+  MONGODB_SOCKET_TIMEOUT_MS: '60000'
+  MONGODB_MAX_POOL_SIZE: '5'
+  MONGODB_MIN_POOL_SIZE: '1'
+
+# Enable ingress for local development
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  hosts:
+    - host: user-service.local
+      paths:
+        - path: /
+          pathType: Prefix

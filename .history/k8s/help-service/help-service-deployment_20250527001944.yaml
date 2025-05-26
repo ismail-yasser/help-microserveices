@@ -6,8 +6,7 @@ metadata:
   labels:
     app: help-service
 spec:
-  replicas: 2
-  selector:
+  replicas: 2  selector:
     matchLabels:
       app: help-service
       app.kubernetes.io/instance: help-service

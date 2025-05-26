@@ -1,0 +1,24 @@
+apiVersion: v2
+name: user-service
+description: A Helm chart for User Service microservice
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+keywords:
+  - microservice
+  - user
+  - authentication
+  - mongodb
+home: https://github.com/ismailyasser/microservices-k8s
+sources:
+  - https://github.com/ismailyasser/microservices-k8s
+maintainers:
+  - name: Ismail Yasser
+    email: ismailyasser106@gmail.com
+annotations:
+  # Add category for better organization
+  category: Application
+  # Specify the container image information
+  images: |
+    - name: user-service
+      image: ismaill370/user-service:latest

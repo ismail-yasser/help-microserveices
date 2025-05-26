@@ -48,14 +48,14 @@ if exist "..\..\k8s\help-service\help-service-deployment.yaml" (
 echo.
 echo Frontend deployment:
 if exist "..\..\k8s\frontend\frontend-deployment.yaml" (
-    findstr /i "livenessProbe" "..\..\k8s\frontend\frontend-deployment.yaml" >nul
+    findstr /i "livenessProbe" "k8s\frontend\frontend-deployment.yaml" >nul
     if %errorlevel% equ 0 (
         echo   ✅ Liveness probe configured
     ) else (
         echo   ❌ Liveness probe missing
     )
     
-    findstr /i "readinessProbe" "..\..\k8s\frontend\frontend-deployment.yaml" >nul
+    findstr /i "readinessProbe" "k8s\frontend\frontend-deployment.yaml" >nul
     if %errorlevel% equ 0 (
         echo   ✅ Readiness probe configured
     ) else (

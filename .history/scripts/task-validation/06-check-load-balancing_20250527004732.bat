@@ -1,5 +1,4 @@
 @echo off
-setlocal enabledelayedexpansion
 echo ========================================
 echo TASK 6: LOAD BALANCING TEST
 echo ========================================

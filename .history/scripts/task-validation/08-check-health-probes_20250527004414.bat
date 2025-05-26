@@ -48,14 +48,14 @@ if exist "..\..\k8s\help-service\help-service-deployment.yaml" (
 echo.
 echo Frontend deployment:
 if exist "..\..\k8s\frontend\frontend-deployment.yaml" (
-    findstr /i "livenessProbe" "..\..\k8s\frontend\frontend-deployment.yaml" >nul
+    findstr /i "livenessProbe" "k8s\frontend\frontend-deployment.yaml" >nul
     if %errorlevel% equ 0 (
         echo   ✅ Liveness probe configured
     ) else (
         echo   ❌ Liveness probe missing
     )
     
-    findstr /i "readinessProbe" "..\..\k8s\frontend\frontend-deployment.yaml" >nul
+    findstr /i "readinessProbe" "k8s\frontend\frontend-deployment.yaml" >nul
     if %errorlevel% equ 0 (
         echo   ✅ Readiness probe configured
     ) else (
@@ -76,7 +76,7 @@ if %errorlevel% neq 0 (
 )
 
 echo Testing User Service health endpoint:
-kubectl exec deployment/user-service-deployment -- curl -s http://localhost:3000/health >nul 2>&1
+kubectl exec deployment/user-service-deployment -- curl -s http://localhost:3000/health 2>nul | findstr -i "healthy\|UP\|ok\|success" >nul
 if %errorlevel% equ 0 (
     echo   ✅ User Service health endpoint responding
 ) else (
@@ -84,7 +84,7 @@ if %errorlevel% equ 0 (
 )
 
 echo Testing Help Service health endpoint:
-kubectl exec deployment/help-service-deployment -- curl -s http://localhost:3002/health >nul 2>&1
+kubectl exec deployment/help-service-deployment -- curl -s http://localhost:3002/health 2>nul | findstr -i "healthy\|UP\|ok\|success" >nul
 if %errorlevel% equ 0 (
     echo   ✅ Help Service health endpoint responding
 ) else (

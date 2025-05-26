@@ -1,5 +1,4 @@
 @echo off
-setlocal enabledelayedexpansion
 echo ========================================
 echo TASK 6: LOAD BALANCING TEST
 echo ========================================
@@ -41,8 +40,7 @@ kubectl get pods -l app=help-service | findstr "Running"
 if %errorlevel% equ 0 (
     echo   ✅ Help Service pods are running
     
-    echo.
-    echo   Testing 5 requests to help service...
+    echo.    echo   Testing 5 requests to help service...
     for /l %%i in (1,1,5) do (
         kubectl exec deployment/frontend-deployment -- curl -s http://help-service:3002/health >nul 2>&1
         if !errorlevel! equ 0 (

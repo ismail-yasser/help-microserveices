@@ -14,13 +14,11 @@ if exist "..\..\.git" (
     goto :end
 )
 
-cd ..\..
 git status >nul 2>&1
 if %errorlevel% equ 0 (
     echo   ✅ Git is working properly
 ) else (
     echo   ❌ Git status check failed
-    cd scripts\task-validation
     goto :end
 )
 
@@ -63,7 +61,6 @@ if %errorlevel% equ 0 (
 )
 
 :end
-cd scripts\task-validation
 echo.
 echo ========================================
 echo TASK 7 VALIDATION COMPLETE

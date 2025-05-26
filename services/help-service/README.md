@@ -1,0 +1,109 @@
+# Help Service
+
+A microservice for help and support operations.
+
+## Overview
+
+The Help Service provides RESTful APIs for managing help articles and support tickets. It's designed to run in a Kubernetes environment and integrates with the frontend application.
+
+## Features
+
+- Help article management
+- Support ticket system
+- RESTful API endpoints
+- Health check endpoint
+- Kubernetes-ready configuration
+- Docker containerization
+
+## API Endpoints
+
+### Health Check
+- **GET** `/health` - Returns service health status
+
+### Help Articles
+- **GET** `/api/help` - Get help articles (with optional category/search filters)
+- **POST** `/api/help` - Create a new help article
+- **GET** `/api/help/{id}` - Get help article by ID
+- **PUT** `/api/help/{id}` - Update help article
+- **DELETE** `/api/help/{id}` - Delete help article
+
+### Support Tickets
+- **GET** `/api/support/tickets` - Get support tickets
+- **POST** `/api/support/tickets` - Create a new support ticket
+
+## Configuration
+
+The service runs on port 3002 by default and can be configured using environment variables:
+
+- `PORT` - Service port (default: 3002)
+- `NODE_ENV` - Environment (development/production)
+
+## Health Probes
+
+The service includes:
+- **Liveness Probe**: `/health` endpoint checked every 30 seconds
+- **Readiness Probe**: `/health` endpoint checked every 10 seconds
+
+## Docker
+
+Build the Docker image:
+```bash
+docker build -t help-service .
+```
+
+Run the container:
+```bash
+docker run -p 3002:3002 help-service
+```
+
+## Kubernetes Deployment
+
+The service can be deployed to Kubernetes using the provided manifests in `/k8s/help-service/`:
+
+- `help-service-deployment.yaml` - Deployment configuration
+- `help-service-service.yaml` - Service configuration
+- `help-service-config.yaml` - ConfigMap
+- `help-service-hpa.yaml` - Horizontal Pod Autoscaler
+
+Deploy using:
+```bash
+kubectl apply -f k8s/help-service/
+```
+
+## API Documentation
+
+Detailed API documentation is available in `api-docs.yaml` (OpenAPI 3.0 format).
+
+## Development
+
+1. Install dependencies: `npm install`
+2. Start development server: `npm start`
+3. Run tests: `npm test`
+
+## Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| PORT | Service port | 3002 |
+| NODE_ENV | Environment | development |
+
+## Features
+
+### Help Articles
+- Create and manage help documentation
+- Categorize articles by topic
+- Tag articles for better organization
+- Search functionality
+
+### Support Tickets
+- Create support tickets
+- Track ticket status (open, in-progress, resolved, closed)
+- Priority levels (low, medium, high, critical)
+- User association
+
+## Status
+
+- ✅ Service running
+- ✅ Health checks configured
+- ✅ Kubernetes ready
+- ✅ API documented

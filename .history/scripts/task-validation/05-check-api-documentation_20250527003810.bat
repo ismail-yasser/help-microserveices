@@ -37,8 +37,8 @@ echo.
 echo Checking documentation content...
 echo.
 
-if exist "..\..\Document API Endpoints.md" (
-    findstr /i "curl\|GET\|POST\|PUT\|DELETE" "..\..\Document API Endpoints.md" >nul
+if exist "Document API Endpoints.md" (
+    findstr /i "curl\|GET\|POST\|PUT\|DELETE" "Document API Endpoints.md" >nul
     if %errorlevel% equ 0 (
         echo   ✅ API documentation contains HTTP methods and curl examples
     ) else (

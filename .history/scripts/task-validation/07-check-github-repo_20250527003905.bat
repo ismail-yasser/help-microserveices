@@ -63,7 +63,6 @@ if %errorlevel% equ 0 (
 )
 
 :end
-cd scripts\task-validation
 echo.
 echo ========================================
 echo TASK 7 VALIDATION COMPLETE

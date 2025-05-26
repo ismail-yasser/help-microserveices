@@ -13,9 +13,10 @@ if exist "..\..\\.github\\workflows" (
     dir /b "..\..\\.github\\workflows\\*.yml" "..\..\\.github\\workflows\\*.yaml" 2>nul | find /c "." > temp_count.txt
     set /p workflow_count=<temp_count.txt
     del temp_count.txt
-      if %workflow_count% gtr 0 (
+    
+    if %workflow_count% gtr 0 (
         echo   ✅ Found %workflow_count% workflow files:
-        dir /b "..\..\\.github\\workflows\\*.yml" "..\..\\.github\\workflows\\*.yaml" 2>nul
+        dir /b "..\..\..github\workflows\*.yml" "..\..\..github\workflows\*.yaml" 2>nul
     ) else (
         echo   ❌ No workflow files found
     )
@@ -27,7 +28,7 @@ echo.
 echo Checking workflow content...
 echo.
 
-for %%f in (..\..\\.github\\workflows\\*.yml ..\..\\.github\\workflows\\*.yaml) do (
+for %%f in (.github\workflows\*.yml .github\workflows\*.yaml) do (
     if exist "%%f" (
         echo   Checking %%f:
         

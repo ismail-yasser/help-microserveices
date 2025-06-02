@@ -1,0 +1,330 @@
+openapi: 3.0.0
+info:
+  title: Help Service API
+  description: API for help and support operations
+  version: 1.0.0
+  contact:
+    name: Development Team
+    email: dev@example.com
+
+servers:
+  - url: http://localhost:3002
+    description: Local development server
+  - url: http://help-service:3002
+    description: Kubernetes cluster
+
+paths:
+  /health:
+    get:
+      summary: Health check endpoint
+      description: Returns the health status of the help service
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  timestamp:
+                    type: string
+                    format: date-time
+                  service:
+                    type: string
+                    example: "help-service"
+
+  /api/help:
+    get:
+      summary: Get help articles
+      description: Retrieve a list of help articles
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+          description: Filter by category
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Search query for articles
+      responses:
+        '200':
+          description: List of help articles retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HelpArticle'
+        '500':
+          description: Internal server error
+
+    post:
+      summary: Create a new help article
+      description: Create a new help article
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateHelpArticleRequest'
+      responses:
+        '201':
+          description: Help article created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelpArticle'
+        '400':
+          description: Bad request - Invalid input data
+        '500':
+          description: Internal server error
+
+  /api/help/{id}:
+    get:
+      summary: Get help article by ID
+      description: Retrieve a specific help article by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Help article ID
+      responses:
+        '200':
+          description: Help article retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelpArticle'
+        '404':
+          description: Help article not found
+        '500':
+          description: Internal server error
+
+    put:
+      summary: Update help article
+      description: Update an existing help article
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Help article ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateHelpArticleRequest'
+      responses:
+        '200':
+          description: Help article updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelpArticle'
+        '400':
+          description: Bad request - Invalid input data
+        '404':
+          description: Help article not found
+        '500':
+          description: Internal server error
+
+    delete:
+      summary: Delete help article
+      description: Delete a help article by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Help article ID
+      responses:
+        '204':
+          description: Help article deleted successfully
+        '404':
+          description: Help article not found
+        '500':
+          description: Internal server error
+
+  /api/support/tickets:
+    get:
+      summary: Get support tickets
+      description: Retrieve a list of support tickets
+      responses:
+        '200':
+          description: List of support tickets retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SupportTicket'
+        '500':
+          description: Internal server error
+
+    post:
+      summary: Create a new support ticket
+      description: Create a new support ticket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSupportTicketRequest'
+      responses:
+        '201':
+          description: Support ticket created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportTicket'
+        '400':
+          description: Bad request - Invalid input data
+        '500':
+          description: Internal server error
+
+components:
+  schemas:
+    HelpArticle:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique help article identifier
+        title:
+          type: string
+          description: Article title
+        content:
+          type: string
+          description: Article content
+        category:
+          type: string
+          description: Article category
+        tags:
+          type: array
+          items:
+            type: string
+          description: Article tags
+        createdAt:
+          type: string
+          format: date-time
+          description: Article creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+      required:
+        - id
+        - title
+        - content
+        - category
+
+    CreateHelpArticleRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Article title
+        content:
+          type: string
+          description: Article content
+        category:
+          type: string
+          description: Article category
+        tags:
+          type: array
+          items:
+            type: string
+          description: Article tags
+      required:
+        - title
+        - content
+        - category
+
+    UpdateHelpArticleRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Article title
+        content:
+          type: string
+          description: Article content
+        category:
+          type: string
+          description: Article category
+        tags:
+          type: array
+          items:
+            type: string
+          description: Article tags
+
+    SupportTicket:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique support ticket identifier
+        subject:
+          type: string
+          description: Ticket subject
+        description:
+          type: string
+          description: Ticket description
+        status:
+          type: string
+          enum: [open, in-progress, resolved, closed]
+          description: Ticket status
+        priority:
+          type: string
+          enum: [low, medium, high, critical]
+          description: Ticket priority
+        userId:
+          type: string
+          description: ID of the user who created the ticket
+        createdAt:
+          type: string
+          format: date-time
+          description: Ticket creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+      required:
+        - id
+        - subject
+        - description
+        - status
+        - priority
+        - userId
+
+    CreateSupportTicketRequest:
+      type: object
+      properties:
+        subject:
+          type: string
+          description: Ticket subject
+        description:
+          type: string
+          description: Ticket description
+        priority:
+          type: string
+          enum: [low, medium, high, critical]
+          description: Ticket priority
+        userId:
+          type: string
+          description: ID of the user creating the ticket
+      required:
+        - subject
+        - description
+        - priority
+        - userId
